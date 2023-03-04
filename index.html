@@ -5,8 +5,15 @@
 <link rel="stylesheet" type="text/css" href=css/cookieconsent.css />
 <script src=js/cookieconsent.js ></script>
 <script src=js/initcookie.js ></script>
+<!-- Google tag (gtag.js) -->
 <script async type="text/plain" data-cookiecategory="analytics" src="https://www.googletagmanager.com/gtag/js?id=G-FNG7L428FD"></script>
-<script type="text/plain" data-cookiecategory="analytics" src=js/GA.js ></script>
+<script type="text/plain" data-cookiecategory="analytics">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FNG7L428FD');
+</script>
 </head>
 <body>
 </body>
