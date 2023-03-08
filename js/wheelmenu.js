@@ -13,6 +13,9 @@
 	}
 	window.addEventListener('load', function () {
 	let i=0
+	let selector = ".menu-item a";
+	let rule = "transform: rotate(90deg)";
+	document.styleSheets[wheelmenu].addRule(selector,rule);
 		for (nav of document.getElementsByClassName('menu')){
 			let navClass = "menu-"+i;
 			nav.classList.add(navClass);
@@ -23,9 +26,6 @@
 				let y= Math.sin(point);
 				let rule = "transform: rotate(-90deg) translate("+(x*100)+"%,"+(y*100)+"%);";
 				let selector = "."+navClass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(j+1)+")";
-				document.styleSheets[wheelmenu].addRule(selector,rule);
-				selector = ".menu-item a";
-				rule = "transform: rotate(90deg)";
 				document.styleSheets[wheelmenu].addRule(selector,rule);
 			}
 			i++;
