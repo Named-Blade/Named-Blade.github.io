@@ -15,11 +15,9 @@ window.addEventListener('load', function(){
 			},
 
 			onAccept: function (cookie) {
-				console.log(cookie);
 			},
 
 			onChange: function (cookie, changed_categories) {
-				console.log(cookie);
 			},
 
 			languages: {
