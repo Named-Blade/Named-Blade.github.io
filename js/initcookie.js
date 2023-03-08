@@ -1,5 +1,5 @@
 window.addEventListener('load', function(){
-	var dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack || Navigator.globalPrivacyControl;
+	var dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack || navigator.globalPrivacyControl;
 	if (dnt != "1" && dnt != "yes"){
 		document.body.classList.toggle('c_darkmode');
 
