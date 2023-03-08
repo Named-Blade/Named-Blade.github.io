@@ -23,6 +23,7 @@ body {
 }
 .menu-toggler:checked + label {
   background: transparent;
+  transform: translateY(10px);
 }
 .menu-toggler:checked + label:before,
 .menu-toggler:checked + label:after,{
