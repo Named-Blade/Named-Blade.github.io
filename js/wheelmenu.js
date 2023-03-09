@@ -22,22 +22,25 @@ class navMenu{
 		this.navclass = navClass;
 		this.n = n;
 		nav.classList.add(this.navclass);
-		this.styleSheet = new CSSStyleSheet();
-		document.adoptedStyleSheets.push(this.styleSheet)
 		this.observer = new MutationObserver(this.onChange.bind(this));
 		this.observer.observe(this.nav.children[2],{childList:true});
 		this.onChange();
 	}
 	onChange(){
-		for (const rule of this.styleSheet.cssRules){
-			this.styleSheet.deleteRule(0);
-			this.styleSheet.deleteRule(0);
+		let styleSheets = Array.from(document.adoptedStyleSheets);
+		for (let i=0;i<styleSheets.length;i++){
+			if (styleSheets[i] == this.styleSheet){
+				styleSheets = styleSheets.splice(i,1);
+			}
 		}
+		document.adoptedStyleSheets = styleSheets;
+		this.styleSheet = new CSSStyleSheet();
+		document.adoptedStyleSheets.push(this.styleSheet)
 		let numItems = this.nav.children[2].children.length;
 		for (let i=0;i<numItems;i++){
 			let n = this.n;
-			let circle = Math.floor(-(1/2)+(n+8*i)**(1/2)/(2*(n)**(1/2)))+1;
-			let lastCircle = Math.floor(-(1/2)+(n+8*(numItems-1))**(1/2)/(2*(n)**(1/2)))+1;
+			let circle = Math.floor(-(1/2)+(n+1+8*i)**(1/2)/(2*(n)**(1/2)))+1;
+			let lastCircle = Math.floor(-(1/2)+(n+1+8*(numItems-1))**(1/2)/(2*(n)**(1/2)))+1;
 			let maxSize = n*lastCircle*(lastCircle+1)/2;
 			let circleSize = n*circle;
 			let circlePoints;
