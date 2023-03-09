@@ -1,34 +1,52 @@
 (function (){
 	var wheelmenu;
-	for (let i=0;i<document.styleSheets.length;i++){
-		if (/wheelmenu\.css$/.test(document.styleSheets[i].href)){
-			wheelmenu = i;
-			for (let j=0;j<document.styleSheets[i].rules.length;j++){
-				if (/menu-item:nth-child/.test(document.styleSheets[i].rules[j].selectorText)){
-					document.styleSheets[i].deleteRule(j);
-					j--;
+	for (styleSheet of document.styleSheets){
+		if (/wheelmenu\.css$/.test(styleSheet.href)){
+			wheelmenu = styleSheet;
+			for (let i=0;i<styleSheet.cssRules.length;i++){
+				if (/menu-item:nth-child/.test(styleSheet.cssRules[i].selectorText)){;
+					styleSheet.deleteRule(i);
+					i--
 				}
 			}
 		}
 	}
 	window.addEventListener('load', function () {
-	let i=0
-	let selector = ".menu-item a";
-	let rule = "transform: rotate(90deg)";
-	document.styleSheets[wheelmenu].addRule(selector,rule);
+		let selector = ".menu-item a";
+		let rule = "{transform: rotate(90deg)}";
+		wheelmenu.insertRule(selector+rule);
+		let i=0
 		for (nav of document.getElementsByClassName('menu')){
 			let navClass = "menu-"+i;
-			nav.classList.add(navClass);
-			let numItems = nav.children[2].children.length;
-			for (let j=0;j<numItems;j++){
-				let point = (Math.PI*2/numItems)*(j);
-				let x= Math.cos(point);
-				let y= Math.sin(point);
-				let rule = "transform: rotate(-90deg) translate("+(x*100)+"%,"+(y*100)+"%);";
-				let selector = "."+navClass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(j+1)+")";
-				document.styleSheets[wheelmenu].addRule(selector,rule);
-			}
+			new navMenu(nav,navClass);
 			i++;
 		}
 	});
+	class navMenu{
+		constructor(nav,navClass){
+			this.navclass = navClass;
+			this.nav = nav;
+			nav.classList.add(this.navclass);
+			this.styleSheet = new CSSStyleSheet();
+			document.adoptedStyleSheets.push(this.styleSheet)
+			this.observer = new MutationObserver(this.onChange.bind(this));
+			this.observer.observe(this.nav.children[2],{childList:true});
+			this.onChange();
+			window.nav = this;
+		}
+		onChange(){
+			for (const rule of this.styleSheet.cssRules){
+				this.styleSheet.deleteRule(0);
+			}
+			let numItems = this.nav.children[2].children.length;
+			for (let i=0;i<numItems;i++){
+				let point = (Math.PI*2/numItems)*(i);
+				let x= Math.cos(point);
+				let y= Math.sin(point);
+				let rule = "{transform: rotate(-90deg) translate("+(x*100)+"%,"+(y*100)+"%);}";
+				let selector = "."+this.navclass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(i+1)+")";
+				this.styleSheet.insertRule(selector+rule);
+			}
+		}
+	}
 })();
