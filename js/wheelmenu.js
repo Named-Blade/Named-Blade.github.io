@@ -12,9 +12,6 @@
 		}
 	}
 	window.addEventListener('load', function () {
-		let selector = ".menu-item a";
-		let rule = "{transform: rotate(90deg)}";
-		wheelmenu.insertRule(selector+rule);
 		let i=0
 		for (nav of document.getElementsByClassName('menu')){
 			let navClass = "menu-"+i;
@@ -37,14 +34,28 @@
 		onChange(){
 			for (const rule of this.styleSheet.cssRules){
 				this.styleSheet.deleteRule(0);
+				this.styleSheet.deleteRule(0);
 			}
 			let numItems = this.nav.children[2].children.length;
 			for (let i=0;i<numItems;i++){
-				let point = (Math.PI*2/numItems)*(i);
+				let circle = Math.floor(0.5 + 0.223607 * (8*i+5)**(1/2));
+				let lastCircle = Math.floor(0.5 + 0.223607 * (8*(numItems-1)+5)**(1/2));
+				let maxSize = 5*lastCircle*(lastCircle+1)/2;
+				let circleSize = 5*circle;
+				let circlePoints;
+				if (circle == lastCircle && maxSize >= circleSize){
+					circlePoints = numItems-(maxSize-circleSize);
+				} else {
+					circlePoints = circleSize;
+				}
+				let point = (Math.PI*2/circlePoints)*(i%circlePoints);
 				let x= Math.cos(point);
 				let y= Math.sin(point);
-				let rule = "{transform: rotate(-90deg) translate("+(x*100)+"%,"+(y*100)+"%);}";
+				let rule = "{transform: rotate(-90deg) translate("+(x*105*circle)+"%,"+(y*105*circle)+"%);}";
 				let selector = "."+this.navclass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(i+1)+")";
+				this.styleSheet.insertRule(selector+rule);
+				selector = "."+this.navclass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(i+1)+") a";
+				rule = "{transform: rotate(90deg)";
 				this.styleSheet.insertRule(selector+rule);
 			}
 		}
