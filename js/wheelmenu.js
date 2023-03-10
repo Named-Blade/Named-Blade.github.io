@@ -12,17 +12,17 @@ window.addEventListener('load', function () {
 	let i=0
 	for (nav of document.getElementsByClassName('menu')){
 		let navClass = "menu-"+i;
-		new navMenu(nav,navClass,5);
+		new navMenu(nav,navClass);
 		i++;
 	}
 });
 class navMenu{
-	constructor(nav,navClass,n){
+	constructor(nav,navClass,n=6){
 		this.nav = nav;
-		this.nav.nav = this;
+		this.nav.navMenu = this;
 		this.navclass = navClass;
 		this.n = n;
-		nav.classList.add(this.navclass);
+		this.nav.classList.add(this.navclass);
 		this.observer = new MutationObserver(this.onChange.bind(this));
 		this.observer.observe(this.nav.children[2],{childList:true});
 		this.onChange();
@@ -38,21 +38,21 @@ class navMenu{
 		this.styleSheet = new CSSStyleSheet();
 		document.adoptedStyleSheets.push(this.styleSheet)
 		this.styleSheet.insertRule(`@keyframes spin-1 {
-										from {
-											rotate:0deg;
-										}
-										to {
-											rotate:360deg;
-										}
-									}`)
+			from {
+				rotate:0deg;
+			}
+			to {
+				rotate:360deg;
+			}
+		}`)
 		this.styleSheet.insertRule(`@keyframes spin-2 {
-										from {
-											rotate:0deg;
-										}
-										to {
-											rotate:-360deg;
-										}
-									}`)
+			from {
+				rotate:0deg;
+			}
+			to {
+				rotate:-360deg;
+			}
+		}`)
 		let numItems = this.nav.children[2].children.length;
 		for (let i=0;i<numItems;i++){
 			let n = this.n;
@@ -72,17 +72,21 @@ class navMenu{
 			let y= Math.sin(point);
 			let selector = "."+this.navclass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(i+1)+")";
 			let rule = `{
-							animation: spin-`+(circle%2 == 1 ? 1:2)+` 30s linear infinite;
-							transform: rotate(-90deg) translate(`+(x*100*circle)+`%,`+(y*100*circle)+`%);
-						}`;
+				animation: spin-`+(circle%2 == 1 ? 1:2)+` 30s linear infinite;
+				transform: rotate(-90deg) translate(`+(x*100*circle)+`%,`+(y*100*circle)+`%);
+			}`;
 			this.styleSheet.insertRule(selector+rule);
 			selector = "."+this.navclass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(i+1)+") a";
 			rule = `{
-						animation: spin-`+(circle%2 == 1 ? 2:1)+` 30s linear infinite;
-						transform: rotate(90deg);
-					}`;
+				animation: spin-`+(circle%2 == 1 ? 2:1)+` 30s linear infinite;
+				transform: rotate(90deg);
+			}`;
 			this.styleSheet.insertRule(selector+rule);
 		}
+		this.nav.classList.remove(this.navclass);
+		this.nav.offsetWidth;
+		this.nav.classList.add(this.navclass);
+		
 	}
 	changeN(n){
 		this.n = n;
