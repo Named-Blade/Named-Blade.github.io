@@ -19,6 +19,7 @@ window.addEventListener('load', function () {
 class navMenu{
 	constructor(nav,navClass,n){
 		this.nav = nav;
+		this.nav.nav = this;
 		this.navclass = navClass;
 		this.n = n;
 		nav.classList.add(this.navclass);
@@ -36,9 +37,26 @@ class navMenu{
 		document.adoptedStyleSheets = styleSheets;
 		this.styleSheet = new CSSStyleSheet();
 		document.adoptedStyleSheets.push(this.styleSheet)
+		this.styleSheet.insertRule(`@keyframes spin-1 {
+										from {
+											rotate:0deg;
+										}
+										to {
+											rotate:360deg;
+										}
+									}`)
+		this.styleSheet.insertRule(`@keyframes spin-2 {
+										from {
+											rotate:0deg;
+										}
+										to {
+											rotate:-360deg;
+										}
+									}`)
 		let numItems = this.nav.children[2].children.length;
 		for (let i=0;i<numItems;i++){
 			let n = this.n;
+			let tau = Math.PI*2
 			let circle = Math.floor(-(1/2)+(n+1+8*i)**(1/2)/(2*(n)**(1/2)))+1;
 			let lastCircle = Math.floor(-(1/2)+(n+1+8*(numItems-1))**(1/2)/(2*(n)**(1/2)))+1;
 			let maxSize = n*lastCircle*(lastCircle+1)/2;
@@ -49,14 +67,20 @@ class navMenu{
 			} else {
 				circlePoints = circleSize;
 			}
-			let point = (Math.PI*2/circlePoints)*(i%circlePoints);
+			let point = (tau/circlePoints)*(i%circlePoints);
 			let x= Math.cos(point);
 			let y= Math.sin(point);
-			let rule = "{transform: rotate(-90deg) translate("+(x*105*circle)+"%,"+(y*105*circle)+"%);}";
 			let selector = "."+this.navclass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(i+1)+")";
+			let rule = `{
+							animation: spin-`+(circle%2 == 1 ? 1:2)+` 30s linear infinite;
+							transform: rotate(-90deg) translate(`+(x*100*circle)+`%,`+(y*100*circle)+`%);
+						}`;
 			this.styleSheet.insertRule(selector+rule);
 			selector = "."+this.navclass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(i+1)+") a";
-			rule = "{transform: rotate(90deg)";
+			rule = `{
+						animation: spin-`+(circle%2 == 1 ? 2:1)+` 30s linear infinite;
+						transform: rotate(90deg);
+					}`;
 			this.styleSheet.insertRule(selector+rule);
 		}
 	}
