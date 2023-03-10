@@ -31,7 +31,7 @@ class navMenu{
 		let styleSheets = Array.from(document.adoptedStyleSheets);
 		for (let i=0;i<styleSheets.length;i++){
 			if (styleSheets[i] == this.styleSheet){
-				styleSheets = styleSheets.splice(i,1);
+				styleSheets = styleSheets.slice(0,i).concat(styleSheets.slice(i+1))
 			}
 		}
 		document.adoptedStyleSheets = styleSheets;

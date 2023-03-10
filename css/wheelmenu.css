@@ -10,8 +10,8 @@ body {
   right:0;
   left:0;
   margin:auto;
-  width:40px;
-  height:40px;
+  width:80px;
+  height:80px;
   z-index:2;
   opacity:0;
   cursor:pointer;
@@ -28,7 +28,7 @@ body {
 .menu-toggler:checked + label:before,
 .menu-toggler:checked + label:after,{
   top:0;
-  width:40px;
+  width:80px;
   transform-origin: 50% 50%;
 }
 .menu-toggler:checked + label:before {
@@ -62,7 +62,7 @@ body {
   pointer-events:auto;
 }
 .menu-toggler + label {
-  width: 40px;
+  width: 80px;
   height: 5px;
   display: block;
   z-index: 1;
@@ -79,7 +79,7 @@ body {
 }
 .menu-toggler + label:before,
 .menu-toggler + label:after {
-  width: 40px;
+  width: 80px;
   height: 5px;
   display: block;
   z-index: 1;
@@ -123,8 +123,8 @@ body {
   left: 0;
   right: 0;
   margin: auto;
-  width: 80px;
-  height: 80px;
+  width: 160px;
+  height: 160px;
   opacity: 0;
   transition: 0.5s;
 }
@@ -132,13 +132,13 @@ body {
   display: block;
   width: inherit;
   height: inherit;
-  line-height: 80px;
+  line-height: 160px;
   color: rgba(255, 255, 255, 0.7);
   background: rgba(230, 230, 250, 0.7);
   border-radius: 50%;
   text-align: center;
   text-decoration: none;
-  font-size: 40px;
+  font-size: 80px;
   pointer-events: none;
   transition: 0.2s;
 }
@@ -146,5 +146,5 @@ body {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
   color: white;
   background: rgba(255, 255, 255, 0.3);
-  font-size: 44.44px
+  font-size: 88.88px
 }
