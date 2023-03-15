@@ -5,16 +5,6 @@ window.addEventListener('load', function () {
 		new navMenu(nav,navClass);
 		i++;
 	}
-	for (styleSheet of document.styleSheets){
-		if (/wheelmenu\.css$/.test(styleSheet.href)){
-			for (let i=0;i<styleSheet.cssRules.length;i++){
-				if (/menu-item:nth-child/.test(styleSheet.cssRules[i].selectorText)){;
-					styleSheet.deleteRule(i);
-					i--
-				}
-			}
-		}
-	}
 });
 class navMenu{
 	constructor(nav,navClass,n=6){
@@ -36,22 +26,6 @@ class navMenu{
 		}
 		this.styleSheet = new CSSStyleSheet();
 		document.adoptedStyleSheets = styleSheets;
-		this.styleSheet.insertRule(`@keyframes spin-1 {
-			from {
-				rotate:0deg;
-			}
-			to {
-				rotate:360deg;
-			}
-		}`)
-		this.styleSheet.insertRule(`@keyframes spin-2 {
-			from {
-				rotate:0deg;
-			}
-			to {
-				rotate:-360deg;
-			}
-		}`)
 		let numItems = this.nav.children[2].children.length;
 		for (let i=0;i<numItems;i++){
 			let n = this.n;
@@ -66,13 +40,21 @@ class navMenu{
 			let y= Math.sin(point);
 			let selector = "."+this.navClass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(i+1)+")";
 			let rule = `{
-				animation: spin-`+(circle%2 == 1 ? 1:2)+` 30s linear infinite;
 				transform: rotate(-90deg) translate(`+(x*100*circle)+`%,`+(y*100*circle)+`%);
+			}`;
+			this.styleSheet.insertRule(selector+rule);
+			selector = "."+this.navClass+" .menu-toggler ~ ul .menu-item:nth-child("+(i+1)+")";
+			rule = `{
+				animation: spin-`+(((circle-1)%2)+1)+` 30s linear infinite;
+			}`
+			this.styleSheet.insertRule(selector+rule);
+			selector = "."+this.navClass+" .menu-toggler ~ ul .menu-item:nth-child("+(i+1)+") a";
+			rule = `{
+				animation: spin-`+(circle%2 == 1 ? 2:1)+` 30s linear infinite;
 			}`;
 			this.styleSheet.insertRule(selector+rule);
 			selector = "."+this.navClass+" .menu-toggler:checked ~ ul .menu-item:nth-child("+(i+1)+") a";
 			rule = `{
-				animation: spin-`+(circle%2 == 1 ? 2:1)+` 30s linear infinite;
 				transform: rotate(90deg);
 			}`;
 			this.styleSheet.insertRule(selector+rule);

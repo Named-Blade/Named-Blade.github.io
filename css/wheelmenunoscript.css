@@ -1,0 +1,24 @@
+.menu-toggler ~ ul .menu-item{
+	animation: spin-1 30s linear infinite;
+}
+.menu-toggler:checked ~ ul .menu-item:nth-child(1) {
+	transform: rotate(-90deg) translate(100%, 0%);
+}
+.menu-toggler:checked ~ ul .menu-item:nth-child(2) {
+	transform: rotate(-90deg) translate(50%, 86.6025%);
+}
+.menu-toggler:checked ~ ul .menu-item:nth-child(3) {
+	transform: rotate(-90deg) translate(-50%, 86.6025%);
+}
+.menu-toggler:checked ~ ul .menu-item:nth-child(4) {
+	transform: rotate(-90deg) translate(-100%, 1.22465e-14%);
+}
+.menu-toggler:checked ~ ul .menu-item:nth-child(5) {
+	transform: rotate(-90deg) translate(-50%, -86.6025%);
+}
+.menu-toggler:checked ~ ul .menu-item:nth-child(6) {
+	transform: rotate(-90deg) translate(50%, -86.6025%);
+}
+.menu-item . a {
+	transform: rotate(90deg);
+}
